@@ -11,11 +11,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-var mongoUrl = "mongodb://" + process.env.MONGODB_USERNAME + ":" + process.env.MONGODB_PASSWORD + "@" + process.env.MONGODB_SERVICE_HOST + ":"
-    + process.env.MONGODB_SERVICE_PORT_MONGO + "/" + process.env.MONGODB_DATABASE;
-
+var mongoUrl = "mongodb://" + process.env.MONGODB_USERNAME + ":" + process.env.MONGODB_PASSWORD + "@" + process.env.MONGODB_SERVICE_HOST + ":" + process.env.MONGODB_SERVICE_PORT_MONGO + "/" + process.env.MONGODB_DATABASE;
 //mongoose.connect('mongodb://localhost/loginapp');
-mongoose.connect(mongoUrl);
+console.log(mongoUrl);
 var db = mongoose.connection;
 
 var routes = require('./routes/index');
@@ -88,7 +86,7 @@ app.use('/users', users);
 app.use('/todos',todos)
 
 // Set Port
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || 8080));
 
 app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
