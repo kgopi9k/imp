@@ -11,11 +11,23 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-var mongoUrl = "mongodb://" + process.env.MONGODB_USERNAME + ":" + process.env.MONGODB_PASSWORD + "@" + process.env.MONGODB_SERVICE_HOST + ":" + process.env.MONGODB_SERVICE_PORT_MONGO + "/" + process.env.MONGODB_DATABASE;
-//mongoose.connect('mongodb://localhost/loginapp');
-mongoose.connect(mongoUrl);
-console.log(mongoUrl);
+//default to a 'localhost' configuration:
+var connection_string = '127.0.0.1:27017/loginapp';
+// if OPENSHIFT env variables are present, use the available connection info:
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+    connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+    process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+    process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+    process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+    process.env.OPENSHIFT_APP_NAME;
+}
+ 
+mongoose.connect('mongodb://' + connection_string);
 var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+ 
+console.log('Hey, database Node module is loaded')
+module.exports = db;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -86,9 +98,18 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/todos',todos)
 
-// Set Port
+/*// Set Port
 app.set('port', (process.env.PORT || 8080));
 
 app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
+});*/
+
+
+//openshift port or local port
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+var port = process.env.OPENSHIFT_NODEJS_PORT ||3000;
+ 
+app.listen(port, ipaddress, function () {
+    logger.info('Express server listening on port: ' + port);
 });
