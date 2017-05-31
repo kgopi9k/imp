@@ -16,14 +16,15 @@ var mongoose = require('mongoose');
 //var connection_string = 'vmindsv:vmindsv@123@mongodb/sampledb';
 // if OPENSHIFT env variables are present, use the available connection info:
 
-   var connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+  /* var connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
     process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
     process.env.MONGODB_SERVICE_HOST  + ':' +
     process.env.MONGODB_SERVICE_PORT_MONGO + '/' +
     process.env.OPENSHIFT_APP_NAME;
-
- 
-mongoose.connect('mongodb://' + connection_string);
+*/
+var connection_string = 'mongodb://vmindsv:veeraj@123@cluster0-shard-00-00-os0o4.mongodb.net:27017,cluster0-shard-00-01-os0o4.mongodb.net:27017,cluster0-shard-00-02-os0o4.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin'
+//mongoose.connect('mongodb://' + connection_string);
+mongoose.connect(connection_string);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
  
