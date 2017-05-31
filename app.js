@@ -13,8 +13,8 @@ var mongoose = require('mongoose');
 
 var mongoUrl = "mongodb://" + process.env.MONGODB_USERNAME + ":" + process.env.MONGODB_PASSWORD + "@" + process.env.MONGODB_SERVICE_HOST + ":" + process.env.MONGODB_SERVICE_PORT_MONGO + "/" + process.env.MONGODB_DATABASE;
 //mongoose.connect('mongodb://localhost/loginapp');
-mongoose.connect('mongodb://vmindsv:vmindsv@123@mongodb/sampledb');
-console.log('mongodb://vmindsv:vmindsv@123@mongodb/sampledb');
+mongoose.connect(mongoUrl);
+console.log(mongoUrl);
 var db = mongoose.connection;
 
 var routes = require('./routes/index');
