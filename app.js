@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 
 //default to a 'localhost' configuration:
 //var connection_string = '127.0.0.1:27017/loginapp';
-var connection_string = 'vmindsv:vmindsv@123@mongodb:27017/sampledb';
+var connection_string = 'vmindsv:vmindsv@123@mongodb/sampledb';
 // if OPENSHIFT env variables are present, use the available connection info:
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
     connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
